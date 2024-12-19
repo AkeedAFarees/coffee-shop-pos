@@ -1,0 +1,23 @@
+<!-- app/views/stores/show.html.erb -->
+<h1><%= @store.name %> - <%= @store.location %></h1>
+
+<table class="store-table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Category</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @items.each do |item| %>
+      <tr>
+        <td><%= item.name %></td>
+        <td><%= item.price %></td>
+        <td><%= item.category %></td>
+        <td><%= item.description %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
