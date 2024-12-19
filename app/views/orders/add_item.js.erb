@@ -1,0 +1,23 @@
+<%# app/views/orders/add_item.js.erb %>
+<%# Find the corresponding order item row %>
+<% order_item = @order.order_items.find_by(item_id: params[:item_id]) %>
+<% if order_item %>
+  <% order_item_row = "#order-items tr[data-order-item-id='#{order_item.id}']" %>
+  <%= j("$(#{order_item_row} td:nth-child(2)).text('#{order_item.quantity}')") %>
+  <%= j("$(#{order_item_row} td:nth-child(3)).text('#{order_item.total_price}')") %>
+<% else %>
+  <% new_row = "<tr data-order-item-id='#{order_item.id}'>
+    <td>#{order_item.item.name}</td>
+    <td>#{order_item.quantity}</td>
+    <td>#{order_item.total_price}</td>
+    <td>
+      <%= button_to remove_item_store_order_path(@store, @order, item_id: order_item.item.id), method: :post, remote: true, class: 'button secondary' do %>
+        Remove
+      <% end %>
+    </td>
+  </tr>" %>
+  <%= j("$('#order-items').append(#{new_row});") %>
+<% end %>
+
+<%# Update the total amount %>
+<%= j("$('#total-amount').text('#{@order.total_amount}')") %>

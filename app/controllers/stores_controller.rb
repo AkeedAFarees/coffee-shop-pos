@@ -9,6 +9,7 @@ class StoresController < ApplicationController
   # GET /stores/1 or /stores/1.json
   def show
     @items = @store.items
+    @order = Order.find_or_create_by(store: @store, status: 'pending') # Creates an order if it doesn't exist
   end
 
   # GET /stores/new

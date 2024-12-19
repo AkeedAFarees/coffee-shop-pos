@@ -1,0 +1,9 @@
+<%# app/views/orders/remove_item.js.erb %>
+<% order_item = @order.order_items.find_by(item_id: params[:item_id]) %>
+<% if order_item %>
+  <% order_item_row = "#order-items tr[data-order-item-id='#{order_item.id}']" %>
+  <%= j("$(#{order_item_row}).remove()") %>
+<% end %>
+
+<%# Update the total amount %>
+<%= j("$('#total-amount').text('#{@order.total_amount}')") %>

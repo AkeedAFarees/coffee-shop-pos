@@ -1,23 +1,74 @@
 <!-- app/views/stores/show.html.erb -->
 <h1><%= @store.name %> - <%= @store.location %></h1>
 
-<table class="store-table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Price</th>
-      <th>Category</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @items.each do |item| %>
+<!-- Store Items Section -->
+<section class="store-items">
+  <h2>Menu Items</h2>
+  <table class="store-table">
+    <thead>
       <tr>
-        <td><%= item.name %></td>
-        <td><%= item.price %></td>
-        <td><%= item.category %></td>
-        <td><%= item.description %></td>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th>Quantity</th>
+        <th>Action</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @items.each do |item| %>
+        <tr>
+          <td><%= item.name %></td>
+          <td><%= item.price %></td>
+          <td><%= item.category %></td>
+          <td><%= item.description %></td>
+          <%= form_with url: add_item_store_order_path(@store, @order), method: :post, remote: true do |f| %>
+            <%= f.hidden_field :item_id, value: item.id %>
+            <td>
+              <%= f.number_field :quantity, value: 1, min: 1, class: 'item-quantity' %>
+            </td>
+            <td>
+              <%= f.submit 'Add', class: 'button' %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</section>
+
+<!-- Order Section -->
+<% if @order.order_items.any? %>
+  <section class="order-summary">
+    <h2>Your Order</h2>
+    <table class="store-table">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Quantity</th>
+          <th>Total Price</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="order-items">
+        <% @order.order_items.each do |order_item| %>
+          <tr data-order-item-id="<%= order_item.id %>">
+            <td><%= order_item.item.name %></td>
+            <td><%= order_item.quantity %></td>
+            <td><%= order_item.total_price %></td>
+            <td>
+              <%= button_to remove_item_store_order_path(@store, @order, item_id: order_item.item.id), method: :post, remote: true, class: 'button secondary' do %>
+                Remove
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <!-- Total Amount -->
+    <div class="order-total">
+      <p>Total: $<span id="total-amount"><%= @order.total_amount %></span></p>
+    </div>
+  </section>
+<%end%>

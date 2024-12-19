@@ -8,5 +8,18 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "stores#index" 
-  resources :stores, only: [:index, :new, :create, :show]
+  
+  resources :stores, only: [:index, :new, :create, :show] do
+    # Nested resources for items under each store
+    resources :items, only: [:index]  # Show items for each store
+    
+    # Orders with routes to add/remove items from the order
+    resources :orders, only: [:create, :show] do
+      member do
+        post :add_item     # Route to add items to an order
+        post :remove_item  # Route to remove items from an order
+      end
+    end
+  end
+  
 end
