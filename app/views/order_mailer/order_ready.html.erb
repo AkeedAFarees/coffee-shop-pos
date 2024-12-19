@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Order Ready for Pickup</title>
+    <style>
+      /* Email body styling */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+        color: #333;
+      }
+
+      /* Container for the email content */
+      .email-container {
+        width: 90%;
+        max-width: 600px;
+        margin: 20px auto;
+        background: #ffffff;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        padding: 20px;
+      }
+
+      /* Header */
+      .email-header {
+        background-color: #007bff;
+        color: #fff;
+        padding: 15px;
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      /* Table styling */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      th, td {
+        text-align: left;
+        padding: 10px;
+        border: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #f4f4f4;
+      }
+
+      td {
+        font-size: 14px;
+      }
+
+      /* Total amount styling */
+      .total-amount {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: right;
+      }
+
+      /* Footer message */
+      .email-footer {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 14px;
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-container">
+      <div class="email-header">
+        Order Ready for Pickup
+      </div>
+      <p>Thank you for placing your order with us. Below are your order details:</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @order.order_items.each do |order_item| %>
+            <tr>
+              <td><%= order_item.item.name %></td>
+              <td><%= order_item.quantity %></td>
+              <td>$<%= order_item.total_price %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <p class="total-amount">Total Amount: $<%= @order.total_amount %></p>
+
+      <p>Your order is ready for pickup. Please collect it from the counter at your earliest convenience.</p>
+
+      <div class="email-footer">
+        Thank you for choosing us! We hope to see you again.
+      </div>
+    </div>
+  </body>
+</html>
