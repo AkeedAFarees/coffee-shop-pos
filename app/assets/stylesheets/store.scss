@@ -1,3 +1,9 @@
+/* Apply a soft rounded font for the entire site */
+body {
+  font-family: 'Arial', sans-serif; /* You can use a softer font like 'Poppins', 'Roboto', or 'Open Sans' */
+  line-height: 1.6;
+}
+
 /* Styling for the header */
 .header {
   background-color: #ADD8E6; /* Light blue */
@@ -5,39 +11,22 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  h1 {
-    font-size: 24px;
-    margin: 0;
-  }
-  
-  .stores-button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    text-decoration: none;
-  }
-  
-  .stores-button:hover {
-    background-color: #45a049;
-  }
+  border-radius: 8px; /* Rounded corners for the header */
 }
 
 h1 {
   font-size: 24px;
-  margin-bottom: 20px;
-  text-align: center;
+  margin: 0;
+  text-align: center; /* Center the store name */
 }
 
 /* Store table styling */
 .store-table {
-  width: 80%;
+  width: 100%;
   margin: 20px auto;
   border-collapse: collapse;
+  border-radius: 8px; /* Rounded corners for the whole table */
+  overflow: hidden; /* Prevents border-radius from affecting the table cells */
 
   th, td {
     padding: 10px;
@@ -46,19 +35,85 @@ h1 {
   }
 
   th {
-    background-color: #f4f4f4;
+    background-color: #6495ED; /* Darker blue color for header */
+    color: white; /* White text for better contrast */
     font-weight: bold;
   }
 
-  tr.even {
-    background-color: #f9f9f9; /* Light gray for even rows */
+  tr {
+    background-color: #f2f2f2; /* Light gray for all rows */
   }
 
   tr:hover {
-    background-color: #f1f1f1;
+    background-color: #ddd; /* Light gray hover effect */
+  }
+
+  /* Apply rounded corners to the table, not individual cells */
+  table {
+    border-radius: 8px; /* Rounded corners for the table */
+  }
+
+  /* Make the entire row clickable */
+  .store-row {
+    width: 100%;
+    text-decoration: none; /* Remove the underline */
+    color: inherit; /* Inherit the text color */
+  }
+
+  /* Remove anchor text styles (blue and underline) */
+  .store-row {
+    text-decoration: none; /* No underline */
+    color: inherit; /* Text color inherited from the row */
+  }
+
+  .store-row td {
+    cursor: pointer; /* Make the row cursor clickable */
+  }
+
+  .store-row:hover {
+    background-color: #ddd; /* Hover effect for row */
   }
 }
 
+/* Optional: Add a hover effect to the store row */
+.store-row:hover {
+  background-color: #e0e0e0; /* Change to a different color when hovering over the row */
+}
+
+
+
+/* Store items and order summary sections with rounded corners */
+.store-items, .order-summary {
+  margin: 20px;
+  padding: 20px 10px;
+  background-color: #f9f9f9;
+  border-radius: 8px; /* Rounded corners for sections */
+}
+
+.store-items h2, .order-summary h2 {
+  margin-top: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.order-summary {
+  .order-total {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 18px;
+    font-weight: bold;
+    padding-top: 20px;
+  }
+
+  .order-total p {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+    color: #4CAF50;
+  }
+}
+
+/* Form group and control styling */
 .form-group {
   margin-bottom: 15px;
 }
@@ -71,6 +126,7 @@ h1 {
   border-radius: 4px;
 }
 
+/* Action buttons */
 .form-actions {
   display: flex;
   justify-content: flex-end;
@@ -85,6 +141,7 @@ button, .button {
   font-size: 16px;
   border-radius: 4px;
   cursor: pointer;
+  text-decoration: none;
 }
 
 button:hover, .button:hover {
@@ -109,4 +166,33 @@ button:hover, .button:hover {
 
 .errors li {
   color: #721c24;
+}
+
+/* Quantity input styling */
+.item-quantity {
+  width: 60px;
+  text-align: center;
+}
+
+/* Button inside the order section */
+.order-summary .secondary {
+  background-color: #f44336;
+}
+
+.order-summary .order-total p {
+  font-size: 18px;
+  color: #333;
+}
+
+.order-summary .store-table td {
+  vertical-align: middle;
+}
+
+.store-items .button {
+  margin-top: 10px;
+}
+
+/* Add rounded corners to the buttons */
+button, .button {
+  border-radius: 8px; /* Rounded corners for buttons */
 }
