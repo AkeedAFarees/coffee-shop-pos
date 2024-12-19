@@ -14,6 +14,32 @@ body {
   border-radius: 8px; /* Rounded corners for the header */
 }
 
+.flash {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.flash.notice {
+  background-color: #dff0d8;
+  color: #3c763d;
+}
+
+.flash.alert {
+  background-color: #f2dede;
+  color: #a94442;
+}
+
+.flash-messages {
+  transition: opacity 2s ease-out;
+}
+
+.flash-messages.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
 h1 {
   font-size: 24px;
   margin: 0;
@@ -94,6 +120,7 @@ h1 {
   margin-top: 0;
   font-size: 24px;
   color: #333;
+  text-align: center;
 }
 
 .order-summary {
