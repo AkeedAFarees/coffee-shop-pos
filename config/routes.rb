@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       member do
         post :add_item     # Route to add items to an order
         post :remove_item  # Route to remove items from an order
+        post :place_order
       end
     end
   end

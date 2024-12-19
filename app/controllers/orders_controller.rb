@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
     before_action :set_store
-    before_action :set_order, only: [:show, :add_item, :remove_item]
+    before_action :set_order, only: [:show, :add_item, :remove_item, :place_order]
   
     def create
       @order = @store.orders.create(status: "pending")
@@ -37,6 +37,21 @@ class OrdersController < ApplicationController
         format.js
       end
     end
+
+    def place_order
+        # Mark the order as placed (assuming the model has a status field or similar)
+        if @order.order_items.any?
+					@order.update!(status: 'placed', placed_at: Time.current)
+
+					# Enqueue the job to trigger the mail after 5 seconds
+    			ProcessOrderJob.set(wait: 5.seconds).perform_later(@order.id)
+					flash[:notice] = 'Your order has been placed successfully. Please wait while it is being prepared.'
+        else
+					flash[:alert] = 'You cannot place an order with no items.'
+        end
+				# Redirect to the order show page or the store page
+        redirect_to store_order_path(@store, @order) 
+      end
   
     private
   
