@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_12_19_185826) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_19_204322) do
   create_table "items", force: :cascade do |t|
     t.string "name"
     t.decimal "price", precision: 8, scale: 2
@@ -25,7 +25,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_19_185826) do
   create_table "order_items", force: :cascade do |t|
     t.integer "order_id"
     t.integer "item_id"
-    t.integer "quantity"
+    t.integer "quantity", default: 0
     t.decimal "total_price", precision: 10, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
