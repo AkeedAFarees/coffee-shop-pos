@@ -1,7 +1,9 @@
 <!-- app/views/stores/index.html.erb -->
 <h1>Stores</h1>
 
-<%= link_to 'Create New Store', new_store_path, class: 'button' %>
+<div class="form-actions">
+  <%= link_to 'New Store', new_store_path, class: 'button' %>
+</div>
 
 <table class="store-table">
   <thead>
@@ -11,11 +13,20 @@
     </tr>
   </thead>
   <tbody>
-    <% @stores.each_with_index do |store, index| %>
-      <tr class="<%= 'even' if index.even? %>">
-        <td><%= link_to store.name, store_path(store) %></td>
+    <% @stores.each do |store| %>
+      <tr class="store-row" data-href="<%= store_path(store) %>">
+        <td><%= store.name %></td>
         <td><%= store.location %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
+
+<script>
+  // JavaScript to make the entire row clickable
+  document.querySelectorAll('.store-row').forEach(function(row) {
+    row.addEventListener('click', function() {
+      window.location = row.getAttribute('data-href');
+    });
+  });
+</script>
