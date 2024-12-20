@@ -21,3 +21,12 @@
 
 <%# Update the total amount %>
 <%= j("$('#total-amount').text('#{@order.total_amount}')") %>
+
+<%# Update the total before discount %>
+<%= j("$('#total-before-discount').text('#{@order.total_amount + @order.discounted_amount}')") %>
+
+<%# Update the discount applied %>
+<%= j("$('#discount-applied').text('#{@order.discounted_amount}')") %>
+
+<%# Update the total after discount %>
+<%= j("$('#total-after-discount').text('#{@order.total_amount - @order.discounted_amount}')") %>

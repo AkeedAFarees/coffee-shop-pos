@@ -87,6 +87,7 @@ GEM
     bootsnap (1.18.4)
       msgpack (~> 1.2)
     builder (3.3.0)
+    byebug (11.1.3)
     capybara (3.40.0)
       addressable
       matrix
@@ -98,6 +99,7 @@ GEM
       xpath (~> 3.2)
     childprocess (5.1.0)
       logger (~> 1.5)
+    coderay (1.1.3)
     concurrent-ruby (1.3.4)
     connection_pool (2.4.1)
     crass (1.0.6)
@@ -140,6 +142,7 @@ GEM
       net-smtp
     marcel (1.0.4)
     matrix (0.4.2)
+    method_source (1.1.0)
     mini_mime (1.1.5)
     minitest (5.25.4)
     msgpack (1.7.5)
@@ -158,6 +161,9 @@ GEM
       racc (~> 1.4)
     nokogiri (1.17.2-x86_64-linux)
       racc (~> 1.4)
+    pry (0.15.0)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
     psych (5.2.2)
       date
       stringio
@@ -263,12 +269,14 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap
+  byebug
   capybara
   debug
   error_highlight (>= 0.4.0)
   importmap-rails
   jbuilder
   letter_opener
+  pry
   puma (>= 5.0)
   rails (~> 7.1.3, >= 7.1.3.4)
   sassc-rails

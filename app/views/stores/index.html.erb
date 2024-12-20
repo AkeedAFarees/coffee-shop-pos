@@ -1,26 +1,26 @@
 <!-- app/views/stores/index.html.erb -->
-<h1>Stores</h1>
+<div class="store-page-container">
+  <section class="store-items">
+    <h2>Stores</h2>
 
-<div class="form-actions">
-  <%= link_to 'New Store', new_store_path, class: 'button' %>
+    <table class="store-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Location</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @stores.each do |store| %>
+          <tr class="store-row" data-href="<%= store_path(store) %>">
+            <td><%= store.name %></td>
+            <td><%= store.location %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </section>
 </div>
-
-<table class="store-table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Location</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @stores.each do |store| %>
-      <tr class="store-row" data-href="<%= store_path(store) %>">
-        <td><%= store.name %></td>
-        <td><%= store.location %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
 
 <script>
   // JavaScript to make the entire row clickable

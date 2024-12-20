@@ -1,79 +1,119 @@
-<!-- app/views/stores/show.html.erb -->
-<h1><%= @store.name %> - <%= @store.location %></h1>
-
-<!-- Store Items Section -->
-<section class="store-items">
-  <h2>Menu</h2>
-  <table class="store-table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Category</th>
-        <th>Description</th>
-        <th>Quantity</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @items.each do |item| %>
-        <tr>
-          <td><%= item.name %></td>
-          <td>$<%= item.price %></td>
-          <td><%= item.category %></td>
-          <td><%= item.description %></td>
-          <%= form_with url: add_item_store_order_path(@store, @order), method: :post, remote: true do |f| %>
-            <%= f.hidden_field :item_id, value: item.id %>
-            <td>
-              <%= f.number_field :quantity, value: 1, min: 1, class: 'item-quantity' %>
-            </td>
-            <td>
-              <%= f.submit 'Add', class: 'button' %>
-            </td>
-          <% end %>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</section>
-
-<!-- Order Section -->
-<% if @order.order_items.any? %>
-  <section class="order-summary">
-    <h2>Order</h2>
+<div class="store-page-container">
+  <!-- Store Items Section -->
+  <section class="store-items">
+    <h2>Menu</h2>
     <table class="store-table">
       <thead>
         <tr>
-          <th>Item</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Category</th>
+          <th>Description</th>
           <th>Quantity</th>
-          <th>Total Price</th>
           <th>Action</th>
         </tr>
       </thead>
-      <tbody id="order-items">
-        <% @order.order_items.each do |order_item| %>
-          <tr data-order-item-id="<%= order_item.id %>">
-            <td><%= order_item.item.name %></td>
-            <td><%= order_item.quantity %></td>
-            <td>$<%= order_item.total_price %></td>
-            <td>
-              <%= button_to remove_item_store_order_path(@store, @order, item_id: order_item.item.id), method: :post, remote: true, class: 'button secondary' do %>
-                Remove
-              <% end %>
-            </td>
+      <tbody>
+        <% @items.each do |item| %>
+          <tr>
+            <td><%= item.name %></td>
+            <td>$<%= sprintf('%.2f', item.price) %></td> <!-- Ensuring 2 decimal places -->
+            <td><%= item.category.name %></td>
+            <td><%= item.description %></td>
+            <%= form_with url: add_item_store_order_path(@store, @order), method: :post, remote: true do |f| %>
+              <%= f.hidden_field :item_id, value: item.id %>
+              <td>
+                <%= f.number_field :quantity, value: 1, min: 1, class: 'item-quantity' %>
+              </td>
+              <td>
+                <%= f.submit 'Add', class: 'button' %>
+              </td>
+            <% end %>
           </tr>
         <% end %>
       </tbody>
     </table>
-
-    <!-- Total Amount -->
-    <div class="order-total">
-      <p>Total: $<span id="total-amount"><%= @order.total_amount %></span></p>
-    </div>
-
-    <!-- Place Order Button -->
-    <%= button_to place_order_store_order_path(@store, @order), method: :post, remote: true, class: 'button primary' do %>
-      Place Order
-    <% end %>
   </section>
-<%end%>
+
+  <div class="combo-order-container">
+    <!-- Combos Section -->
+    <section class="store-combos">
+      <h2>Available Combos</h2>
+      <table class="store-table">
+        <thead>
+          <tr>
+            <th>Combo Name</th>
+            <th>Description</th>
+            <th>Discount Type</th>
+            <th>Discount Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @store.combos.each do |combo| %>
+            <tr>
+              <td><%= combo.name %></td>
+              <td><%= combo.description %></td>
+              <td><%= combo.discount_type.capitalize %></td>
+              <td>
+                <% if combo.discount_type == "percentage" %>
+                  <%= sprintf('%.2f', combo.discount_amount) %>% <!-- Show discount with 2 decimal places -->
+                <% else %>
+                  $<%= sprintf('%.2f', combo.discount_amount) %> <!-- Show discount with 2 decimal places -->
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Order Summary -->
+    <% if @order.order_items.any? %>
+      <section class="order-summary">
+        <h2>Order</h2>
+        <table class="store-table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Quantity</th>
+              <th>Total Price</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="order-items">
+            <% @order.order_items.each do |order_item| %>
+              <tr data-order-item-id="<%= order_item.id %>">
+                <td><%= order_item.item.name %></td>
+                <td><%= order_item.quantity %></td>
+                <td>$<%= sprintf('%.2f', order_item.total_price) %></td> <!-- Total price with 2 decimals -->
+                <td>
+                  <%= button_to remove_item_store_order_path(@store, @order, item_id: order_item.item.id), method: :post, remote: true, class: 'button secondary' do %>
+                    Remove
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+        <div class="summary-item">
+          <span class="label">Total:</span>
+          <span class="value" id="total-before-discount">$<%= sprintf('%.2f', @order.total_amount + @order.discounted_amount) %></span> <!-- Total before discount -->
+        </div>
+        <div class="summary-item">
+          <span class="label">Discount Applied:</span>
+          <span class="value" id="discount-applied">$<%= sprintf('%.2f', @order.discounted_amount) %></span> <!-- Discount applied -->
+        </div>
+        <div class="summary-item total">
+          <span class="label">Total after discount:</span>
+          <span class="value" id="total-after-discount">$<%= sprintf('%.2f', @order.total_amount) %></span> <!-- Total after discount -->
+        </div>
+        <div class="summary-item total">
+          <%= button_to place_order_store_order_path(@store, @order), method: :post, remote: true, class: 'button primary' do %>
+            Place Order
+          <% end %>
+        </div>
+      </section>
+    <% end %>
+  </div>
+</div>

@@ -27,7 +27,7 @@
 
       /* Header */
       .email-header {
-        background-color: #007bff;
+        background-color: #6495ED;
         color: #fff;
         padding: 15px;
         text-align: center;
@@ -93,13 +93,15 @@
             <tr>
               <td><%= order_item.item.name %></td>
               <td><%= order_item.quantity %></td>
-              <td>$<%= order_item.total_price %></td>
+              <td>$<%= sprintf('%.2f', order_item.total_price) %></td>
             </tr>
           <% end %>
         </tbody>
       </table>
 
-      <p class="total-amount">Total Amount: $<%= @order.total_amount %></p>
+      <p class="total-amount">Total Amount: $<%= sprintf('%.2f', @order.total_amount + @order.discounted_amount) %></p>
+      <p class="total-amount">Discount Applied: $<%= sprintf('%.2f', @order.discounted_amount) %></p>
+      <p class="total-amount">Total After Discount: $<%= sprintf('%.2f', @order.total_amount) %></p>
 
       <p>Your order is ready for pickup. Please collect it from the counter at your earliest convenience.</p>
 

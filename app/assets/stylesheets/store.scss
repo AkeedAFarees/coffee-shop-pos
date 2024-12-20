@@ -6,14 +6,15 @@ body {
 
 /* Styling for the header */
 .header {
-  background-color: #ADD8E6; /* Light blue */
-  padding: 20px;
+  background-color: #6495ED; /* Blue header */
+  padding: 5px 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-radius: 8px; /* Rounded corners for the header */
 }
 
+/* Flash message styles */
 .flash {
   padding: 10px;
   margin: 10px 0;
@@ -40,77 +41,133 @@ body {
   visibility: hidden;
 }
 
-h1 {
-  font-size: 24px;
-  margin: 0;
-  text-align: center; /* Center the store name */
-}
-
 /* Store table styling */
 .store-table {
   width: 100%;
   margin: 20px auto;
   border-collapse: collapse;
-  border-radius: 8px; /* Rounded corners for the whole table */
+  border-radius: 8px;
   overflow: hidden; /* Prevents border-radius from affecting the table cells */
+}
 
-  th, td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+.store-table th,
+.store-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.store-table th {
+  background-color: #6495ED; /* Darker blue color for header */
+  color: white;
+  font-weight: bold;
+}
+
+.store-table tr {
+  background-color: #f2f2f2; /* Light gray for all rows */
+}
+
+.store-table tr:hover {
+  background-color: #ddd; /* Light gray hover effect */
+}
+
+.store-row {
+  cursor: pointer;
+}
+
+/* Centering h2 and setting font size */
+h2 {
+  font-size: 18px;
+  text-align: center;
+}
+
+/* Container for store pages */
+.store-page-container {
+  margin: 20px auto;
+  max-width: 1200px;
+}
+
+/* Combo order container */
+.combo-order-container {
+  display: flex;
+  justify-content: start;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+/* Store combos and order summary styling */
+.store-combos,
+.order-summary {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  width: 48%;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  min-height: 400px; /* Ensures both sections have the same height */
+}
+
+.store-combos table,
+.order-summary table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+.store-combos th,
+.order-summary th {
+  background-color: #6495ED; /* Blue header */
+  color: white;
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.store-combos td,
+.order-summary td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.store-combos tr:nth-child(even),
+.order-summary tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.store-combos tr:hover,
+.order-summary tr:hover {
+  background-color: #eef;
+}
+
+/* Match height dynamically */
+.combo-order-container > section {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .combo-order-container {
+    flex-direction: column;
   }
 
-  th {
-    background-color: #6495ED; /* Darker blue color for header */
-    color: white; /* White text for better contrast */
-    font-weight: bold;
-  }
-
-  tr {
-    background-color: #f2f2f2; /* Light gray for all rows */
-  }
-
-  tr:hover {
-    background-color: #ddd; /* Light gray hover effect */
-  }
-
-  /* Apply rounded corners to the table, not individual cells */
-  table {
-    border-radius: 8px; /* Rounded corners for the table */
-  }
-
-  /* Make the entire row clickable */
-  .store-row {
+  .store-combos,
+  .order-summary {
     width: 100%;
-    text-decoration: none; /* Remove the underline */
-    color: inherit; /* Inherit the text color */
-  }
-
-  /* Remove anchor text styles (blue and underline) */
-  .store-row {
-    text-decoration: none; /* No underline */
-    color: inherit; /* Text color inherited from the row */
-  }
-
-  .store-row td {
-    cursor: pointer; /* Make the row cursor clickable */
-  }
-
-  .store-row:hover {
-    background-color: #ddd; /* Hover effect for row */
   }
 }
 
-/* Optional: Add a hover effect to the store row */
-.store-row:hover {
-  background-color: #e0e0e0; /* Change to a different color when hovering over the row */
-}
-
-
-
-/* Store items and order summary sections with rounded corners */
-.store-items, .order-summary {
-  margin: 20px;
+/* Styling for the store items and order summary */
+.store-items,
+.order-summary {
   padding: 20px 10px;
   background-color: #f9f9f9;
   border-radius: 8px; /* Rounded corners for sections */
@@ -124,20 +181,50 @@ h1 {
 }
 
 .order-summary {
-  .order-total {
-    display: flex;
-    justify-content: flex-end;
-    font-size: 18px;
-    font-weight: bold;
-    padding-top: 20px;
-  }
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  width: 100%;
+  max-width: 400px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box; /* Ensures padding doesn't overflow */
+}
 
-  .order-total p {
-    font-size: 18px;
-    font-weight: bold;
-    margin: 0;
-    color: #4CAF50;
-  }
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  white-space: nowrap; /* Prevents text wrapping */
+  overflow: hidden; /* Hides overflowing content */
+  text-overflow: ellipsis; /* Adds ellipsis if text is too long */
+}
+
+.summary-item:last-child {
+  border-bottom: none;
+}
+
+.summary-item.total {
+  font-weight: bold;
+  font-size: 16px;
+  color: #333;
+  margin-top: 8px;
+}
+
+.label {
+  color: #555;
+  flex: 1; /* Ensures the label takes equal space */
+  text-align: left;
+}
+
+.value {
+  color: #000;
+  text-align: right;
+  flex-shrink: 0; /* Prevents value from shrinking */
 }
 
 /* Form group and control styling */
@@ -223,3 +310,4 @@ button:hover, .button:hover {
 button, .button {
   border-radius: 8px; /* Rounded corners for buttons */
 }
+

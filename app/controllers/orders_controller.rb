@@ -16,11 +16,12 @@ class OrdersController < ApplicationController
       quantity = params[:quantity].to_i
       @order_item = @order.order_items.find_or_initialize_by(item: @item)
 
-    #   @order_item.quantity ||= 0  # Set to 0 if it's nil
       @order_item.quantity += quantity
       @order_item.total_price = @order_item.quantity * @item.price
       @order_item.save
       @order.update_total_amount
+
+      @order.apply_combos
       respond_to do |format|
         format.js
       end
@@ -33,25 +34,27 @@ class OrdersController < ApplicationController
         @order_item.destroy
         @order.update_total_amount
       end
+      @order.apply_combos
       respond_to do |format|
         format.js
       end
     end
 
     def place_order
-        # Mark the order as placed (assuming the model has a status field or similar)
-        if @order.order_items.any?
-					@order.update!(status: 'placed', placed_at: Time.current)
+      # Mark the order as placed (assuming the model has a status field or similar)
+      if @order.order_items.any?
+        
+        @order.update!(status: 'placed', placed_at: Time.current)
 
-					# Enqueue the job to trigger the mail after 5 seconds
-    			ProcessOrderJob.set(wait: 5.seconds).perform_later(@order.id)
-					flash[:notice] = 'Your order has been placed successfully. Please wait while it is being prepared.'
-        else
-					flash[:alert] = 'You cannot place an order with no items.'
-        end
-				# Redirect to the order show page or the store page
-        redirect_to store_order_path(@store, @order) 
+        # Enqueue the job to trigger the mail after 5 seconds
+        ProcessOrderJob.set(wait: 5.seconds).perform_later(@order.id)
+        flash[:notice] = 'Your order has been placed successfully. Please wait while it is being prepared.'
+      else
+        flash[:alert] = 'You cannot place an order with no items.'
       end
+      # Redirect to the order show page or the store page
+      redirect_to store_order_path(@store, @order) 
+    end
   
     private
   

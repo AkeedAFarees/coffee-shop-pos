@@ -1,30 +1,43 @@
-<h1>Order Details</h1>
+<div class="store-page-container">
+  <div class="form-actions" style="text-align: right;">
+    <%= link_to 'Back to Store', store_path(@order.store), class: 'button' %>
+  </div>
 
-<div class="form-actions" style="text-align: right;">
-  <%= link_to 'Back to Store', store_path(@order.store), class: 'button' %>
-</div>
+  <section class="store-items">
+    <h2>Order Details</h2>
 
-<p>Status: <strong><%= @order.status.humanize %></strong></p>
+    <p>Status: <strong><%= @order.status.humanize %></strong></p>
 
-<table class="store-table">
-  <thead>
-    <tr>
-      <th>Item</th>
-      <th>Quantity</th>
-      <th>Total Price</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @order.order_items.each do |order_item| %>
-      <tr>
-        <td><%= order_item.item.name %></td>
-        <td><%= order_item.quantity %></td>
-        <td>$<%= order_item.total_price %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+    <table class="store-table">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Quantity</th>
+          <th>Total Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @order.order_items.each do |order_item| %>
+          <tr>
+            <td><%= order_item.item.name %></td>
+            <td><%= order_item.quantity %></td>
+            <td>$<%= sprintf('%.2f', order_item.total_price) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+  </table>
 
-<div class="order-total">
-  <p>Total Amount: $<%= @order.total_amount %></p>
+  <div class="summary-item">
+    <span class="label">Total:</span>
+    <span class="value" id="total-before-discount">$<%= sprintf('%.2f', @order.total_amount + @order.discounted_amount) %></span> <!-- Total before discount -->
+  </div>
+  <div class="summary-item">
+    <span class="label">Discount Applied:</span>
+    <span class="value" id="discount-applied">$<%= sprintf('%.2f', @order.discounted_amount) %></span> <!-- Discount applied -->
+  </div>
+  <div class="summary-item total">
+    <span class="label">Total after discount:</span>
+    <span class="value" id="total-after-discount">$<%= sprintf('%.2f', @order.total_amount) %></span> <!-- Total after discount -->
+  </div>
+  </section>
 </div>
