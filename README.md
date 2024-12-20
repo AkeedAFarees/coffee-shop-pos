@@ -1,27 +1,31 @@
-# coffee-shop-pos
-Coffee Shop PoS Simulation for CareCloud Assignment
+# Coffee Shop POS
 
-# README
+## Prerequisites
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+- Docker and Docker Compose installed
 
-Things you may want to cover:
+## Running the application locally with Docker
 
-* Ruby version
+1. Clone the repository:
+   ```bash
+    git clone https://github.com/AkeedAFarees/coffee-shop-pos.git
+    cd coffee-shop-pos
+   ```
 
-* System dependencies
+2. Build and start the containers:
+   ```bash
+   docker-compose up --build
+   ```
 
-* Configuration
+3. Set up the database:
+   ```bash
+   docker-compose run web rake db:create db:migrate db:seed
+   ```
 
-* Database creation
+4. Open your browser and go to http://localhost:3000 to view the app.
 
-* Database initialization
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Stopping the application
+   ```bash
+   docker-compose down
+   ```
